@@ -1,0 +1,14 @@
+<h1> YOu're in the jigsaw game module</h1>
+
+<div><h2>{{timer}}</h2></div>
+
+<table>
+    <tr ng-repeat="row in imagePathSuffixArray">
+        <td  ng-repeat="img in row"  ng-click="move(imagePathSuffixArray.indexOf(row),$index)">
+            <img width="150" height="100" ng-src="{{'img/img'+img+'.png'}}"/>
+        </td>
+    </tr>
+
+</table>
+
+<button ng-click="start()">Start the Game</button>

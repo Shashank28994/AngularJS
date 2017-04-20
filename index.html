@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="JigsawApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Home Page</title>
+</head>
+<body>
+<nav>
+    <a href="#!/game">Go to Game</a>
+</nav>
+
+<div ng-view>
+
+</div>
+
+<script src="vendor/angular.js"></script>
+<script src="vendor/angular-route.js"></script>
+<script src="app/app.js"></script>
+<script src="app/GameSettings/GameSettingsModule.js"></script>
+<script src="app/GameSettings/GameSettingsController.js"></script>
+<script src="app/JigsawGame/JigsawGameModule.js"></script>
+<script src="app/JigsawGame/JigsawGameController.js"></script>
+</body>
+</html>

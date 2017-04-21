@@ -1,16 +1,75 @@
-<h1> YOu're in the jigsaw game module</h1>
+<div class="container">
 
-<div><h2>{{timer}}</h2></div>
+    <div class="row" >
+        <div class="col-lg-12 slider-title">
+            <h1 align="center"> Welcome to the slide puzzle game</h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-lg-12">
+            <p></p>
+        </div>
+    </div>
 
-<table>
-    <tr ng-repeat="row in imagePathSuffixArray">
-        <td  ng-repeat="img in row"  ng-click="move(imagePathSuffixArray.indexOf(row),$index)">
-            <img width="150" height="100" ng-src="{{'img/img'+img+'.png'}}"/>
-        </td>
-    </tr>
+    <div ng-show="won" class="row" >
+        <div class="col-lg-12">
+            <h1> You Won !!!</h1>
+        </div>
+    </div>
 
-</table>
 
-<button ng-click="start()">Start the Game</button>
-<button ng-click="solve()">Solve</button>
-<div><h2>{{solution}}</h2></div>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <table class="table-bordered" >
+                <tr ng-repeat="row in imagePathSuffixArray">
+                    <td  ng-repeat="img in row"  ng-click="move(imagePathSuffixArray.indexOf(row),$index)">
+                        <img width="150" height="100" ng-src="{{'img/img'+img+'.png'}}"/>
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div><h2>Timer:</h2></div>
+                </div>
+                <div class="col-lg-3">
+                    <div><h2>{{timer}}</h2></div>
+                </div>
+            </div>
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div ng-show="solution.length > 0"><h2>Solution:</h2></div>
+                </div>
+                <div class="col-lg-3">
+                    <span ng-repeat="step in solution" ng-class="{'active':(highlightIndex == step.index)}"> {{step.value}}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-lg-3">
+            <button class="btn btn-warning btn-lg" ng-click="start()" ng-disabled="isGameRunning">Start the Game</button>
+        </div>
+        <div class="col-lg-3">
+            <button class="btn btn-warning btn-lg" ng-click="stop()" ng-disabled="(isGameRunning==false)" >Stop the Game</button>
+        </div>
+        <div class="col-lg-3">
+            <button class="btn btn-warning btn-lg" ng-click="solve()">Solve</button>
+        </div>
+        <div class="col-lg-3">
+            <button  class="btn btn-warning btn-lg" ng-click="simulate()">Simulate</button>
+        </div>
+    </div>
+</div>
+
+

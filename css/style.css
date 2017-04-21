@@ -1,0 +1,9 @@
+.active{
+    background-color: green;
+    color :white;
+}
+
+.slider-title{
+    margin-top: 30px;
+    margin-bottom:50px;
+}

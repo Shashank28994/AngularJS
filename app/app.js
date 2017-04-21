@@ -13,7 +13,7 @@
                 templateUrl : 'app/JigsawGame/JigsawGameView.html'
             })
             .otherwise({
-                redirectTo :'/'
+                redirectTo :'/game'
             });
     }
 })(angular);

@@ -3,7 +3,7 @@
     var jigsawGameModule = angular.module('JigsawGame');
 
 
-    jigsawGameModule.controller('JigsawGameController', function ($scope,$interval) {
+    jigsawGameModule.controller('JigsawGameController', function ($scope,$interval,$timeout) {
         var row1 = [1, 2, 3];
         var row2 = [4, 5, 6];
         var row3 = [7, 8, 9];
@@ -14,31 +14,39 @@
 
         $scope.initialBlankImg = initialBlankImg;
         $scope.imagePathSuffixArray = [row1, row2, row3];
-        $scope.timer =0;
-        $scope.solution="";
+        $scope.timer ="00:00:00";
+        $scope.solution=[];
+        $scope.simulate = simulate;
         $scope.startTime;
         $scope.winningCombination = angular.copy($scope.imagePathSuffixArray);
         $scope.count=0;
         $scope.promise;
+        $scope.highlightIndex;
+        $scope.isGameRunning =false;
+        $scope.won =false;
+
 
         $scope.start = shuffle;
+        $scope.stop = stop;
         $scope.solve = startAStarSearch;
-        $scope.move = function (row, column) {
+        $scope.move = move;
+
+        function move (row, column) {
 
             if (isValidMove(row, column)) {
                 moveImages(row, column);
             }
             else {
-                alert('invalid move');
+                $scope.alert.msg="Invalid move !!!";
+                $scope.type=warning;
                 return;
             }
 
 
             if (checkWinningState()) {
-                window.setTimeout(function () {
-                    alert('You won!!');
+                   $scope.won=true;
                     stopTheTimer();
-                }, 50);
+
             }
         };
 
@@ -76,8 +84,13 @@
             $scope.startTime = new Date();
             startTheTimer();
 
+        }
 
-
+        function stop(){
+            stopTheTimer();
+            $scope.isGameRunning =false;
+            $scope.won=false;
+            $scope.solution=[];
         }
 
         function populateRandomNumbers(){
@@ -159,7 +172,25 @@
            return random;
         }
 
+        function simulate(){
+            var delay = 0;
+            $scope.solution.forEach(function(item,index){
+                    delay += 500;
+                   switch(item.value){
+                   case 'R':$timeout(function(){move($scope.initialBlankImg[rowIndex],$scope.initialBlankImg[columnIndex]+1);$scope.highlightIndex=index ;},delay);break;
+                   case 'L':$timeout(function(){move($scope.initialBlankImg[rowIndex],$scope.initialBlankImg[columnIndex]-1);$scope.highlightIndex=index ;},delay);break;
+                   case 'U':$timeout(function(){move($scope.initialBlankImg[rowIndex]-1,$scope.initialBlankImg[columnIndex]);$scope.highlightIndex=index ;},delay);break;
+                   case 'D':$timeout(function(){move($scope.initialBlankImg[rowIndex]+1,$scope.initialBlankImg[columnIndex]);$scope.highlightIndex=index ;},delay);break;
+                   default : alert('Invalid move');break;
+               }
+           }
+        );
+
+        }
+//--------------------------------------------------------------Alert ----------------------
 //---------------------------------------------------------------A* search bit---------------
+
+
 
         function startAStarSearch() {
             var currState = angular.copy($scope.imagePathSuffixArray);
@@ -254,7 +285,11 @@
 
                 if (current.strRepresentation === this.goal.strRepresentation){
                     console.log("SOLUTION FOUNDD!!!");
-                    $scope.solution = current.path;
+                    $scope.solution = Array.from(current.path);
+                    $scope.solution.forEach(function (item, index) {
+                        $scope.solution[index] = {index:index, value:item};
+
+                    })
                     return;
                     // return current;
                 }
